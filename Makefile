@@ -1,7 +1,8 @@
 PROG := mksaltformula
-MAIN := $(PROG)/__init__.py
+MAIN := $(PROG)/__main__.py
 SRCS := \
-  $(MAIN)
+  $(MAIN)                    \
+  $(PROG)/__init__.py
 
 DIR_ENV         := .env
 DIR_BIN         := $(DIR_ENV)/bin
