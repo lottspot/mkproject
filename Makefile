@@ -12,6 +12,7 @@ dist/$(PROG): $(SRCS)
  $(MAIN)
 
 clean:
-	rm -rf dist build *.spec
+	rm -rf dist build *.spec *.egg-info
+	find . -name __pycache__ -print0 | xargs -0 rm -rf
 
 .PHONY: clean
