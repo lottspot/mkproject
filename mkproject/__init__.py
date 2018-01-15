@@ -1,6 +1,8 @@
 import argparse
 
 __version__ = '0.0.0'
+__pkg__     = 'mkproject'
+
 
 def main():
     cfg = {}
