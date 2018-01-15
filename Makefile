@@ -1,4 +1,4 @@
-PROG := mksaltformula
+PROG := mkproject
 MAIN := $(PROG)/__main__.py
 SRCS := \
   $(MAIN)                    \
