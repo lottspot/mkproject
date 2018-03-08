@@ -3,6 +3,7 @@ MAIN := $(PROG)/__main__.py
 SRCS := \
   $(MAIN)                             \
   $(PROG)/__init__.py                 \
+  $(PROG)/cli.py                      \
   $(PROG)/assets.py                   \
   $(PROG)/asset_loader/__init__.py
 

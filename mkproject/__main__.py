@@ -1,4 +1,4 @@
 import sys
-from mkproject import main
+from mkproject import cli
 
-sys.exit(main())
+sys.exit(cli.main())
