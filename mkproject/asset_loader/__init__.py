@@ -15,4 +15,4 @@ class BaseAssetLoader():
 class MockAssetLoader(BaseAssetLoader):
     def load(self, pack):
         for asset in self.location:
-            pack.register_path(asset['pathname'], asset['data'], **asset['meta'])
+            pack.register_path(asset['path'], asset['data'], **asset['meta'])
