@@ -3,7 +3,8 @@ MAIN := $(PROG)/__main__.py
 SRCS := \
   $(MAIN)                             \
   $(PROG)/__init__.py                 \
-  $(PROG)/asset_pack/__init__.py
+  $(PROG)/assets.py                   \
+  $(PROG)/asset_loader/__init__.py
 
 DIR_ENV         := .env
 DIR_BIN         := $(DIR_ENV)/bin

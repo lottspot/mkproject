@@ -3,7 +3,7 @@ import sys
 import argparse
 import json
 from pathlib import Path
-from .asset_pack import AssetPack
+from . import assets
 from .asset_loader import MockAssetLoader
 
 __version__ = '0.0.0'
@@ -38,20 +38,17 @@ def get_basecfg():
     return basecfg
 
 def load_project_pack(projtype):
-    pack = AssetPack()
     search_base = str(Path(CLI_HOME, projtype))
     try_exstensions = (
         ('', MockAssetLoader),
         ('.zip', MockAssetLoader),
     )
-    for ext, loaderobj in try_exstensions:
+    for ext, loader_class in try_exstensions:
         with_ext = search_base + ext
         try_path = Path(with_ext)
-        pack.loader = loaderobj(try_path)
         try:
-            pack.load()
-            return pack
-        except OSError as e:
+            return assets.load(try_path, loader_class)
+        except assets.LoaderError:
             continue
     raise RuntimeError('Failed to load asset pack for project {} from {}'.format(project, search_base))
 

@@ -1,3 +1,7 @@
+from ..exceptions import AssetLoaderError
+
+LoaderError = AssetLoaderError
+
 class BaseAssetLoader():
     def __init__(self, location):
         self.location = location
