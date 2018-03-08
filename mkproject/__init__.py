@@ -36,7 +36,7 @@ def get_basecfg():
         pass
     return basecfg
 
-def load_asset_pack(projtype):
+def load_project_pack(projtype):
     search_base = str(Path(CLI_HOME, projtype))
     try_exstensions = (
         ('', MockAssetPack),
@@ -45,11 +45,13 @@ def load_asset_pack(projtype):
     for ext, packobj in try_exstensions:
         with_ext = search_base + ext
         try_path = Path(with_ext)
+        pack = packobj(try_path)
         try:
-            return packobj(try_path)
+            pack.load()
+            return pack
         except OSError as e:
             continue
-    raise RuntimeError('Failed to load asset pack from {}'.format(search_base))
+    raise RuntimeError('Failed to load asset pack for project {} from {}'.format(project, search_base))
 
 def die(msg):
     emsg = '{}: fatal: {}'.format(
@@ -75,10 +77,13 @@ def main():
     cfg['type'] = args.projtype
 
     try:
-        cfg['asset_pack'] = load_asset_pack(cfg['type'])
+        cfg['asset_pack'] = load_project_pack(cfg['type'])
     except RuntimeError:
         die('no asset packs for project type: {}'.format(cfg['type']))
 
+    # Tests
+    cfg['asset_pack'].assets
+    cfg['asset_pack'].metadata
     print('cfg: {}'.format(cfg))
 
     return 0
