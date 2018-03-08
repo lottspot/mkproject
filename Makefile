@@ -35,5 +35,6 @@ test: $(BIN_PIP)
 clean:
 	rm -rf dist build .env *.spec *.egg-info
 	find . -name __pycache__ -print0 | xargs -0 rm -rf
+	find . -name '*.pyc' -print0 | xargs -0 rm -f
 
 .PHONY: clean env test
