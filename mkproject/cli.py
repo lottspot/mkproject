@@ -6,6 +6,8 @@ from pathlib import Path
 from . import __pkg__
 from . import assets
 from .asset_loader import MockAssetLoader
+from .asset_loader.search import SearchAssetLoader
+from .asset_loader.search import SearchLocation
 
 CLI_HOME   = Path.home() / '.{}'.format(__pkg__)
 CLI_RCFILE = Path(CLI_HOME, 'config.json')
@@ -35,21 +37,6 @@ def get_basecfg():
         pass
     return basecfg
 
-def load_project_pack(projtype):
-    search_base = str(Path(CLI_HOME, projtype))
-    try_exstensions = (
-        ('', MockAssetLoader),
-        ('.zip', MockAssetLoader),
-    )
-    for ext, loader_class in try_exstensions:
-        with_ext = search_base + ext
-        try_path = Path(with_ext)
-        try:
-            return assets.load(try_path, loader_class)
-        except assets.LoaderError:
-            continue
-    raise RuntimeError('Failed to load asset pack for project {} from {}'.format(project, search_base))
-
 def die(msg):
     emsg = '{}: fatal: {}'.format(
         os.path.basename(sys.argv[0]),
@@ -73,14 +60,16 @@ def main():
     cfg['name'] = args.name
     cfg['type'] = args.projtype
 
+    pack_location = SearchLocation(str(CLI_HOME / cfg['type']))
+    pack_location.register_loader('', MockAssetLoader)
+    pack_location.register_loader('.zip', MockAssetLoader)
+
     try:
-        cfg['asset_pack'] = load_project_pack(cfg['type'])
-    except RuntimeError:
+        cfg['asset_pack'] = assets.load(pack_location, SearchAssetLoader)
+    except assets.LoaderError:
         die('no asset packs for project type: {}'.format(cfg['type']))
 
     # Tests
-    cfg['asset_pack'].assets
-    cfg['asset_pack'].metadata
     print('cfg: {}'.format(cfg))
 
     return 0
