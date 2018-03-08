@@ -1,14 +1,15 @@
 import unittest
-from mkproject import assets
-from mkproject.asset_loader import MockAssetLoader
+from mkproject.assets import AssetPack
 
-class TestBaseAssetPack(unittest.TestCase):
+class TestAssetPack(unittest.TestCase):
     def setUp(self):
         self.mock_assets = (
                 {'path': 'some/file', 'data': r'some file bytes'.encode(), 'meta': { 'type': 'template' }},
                 {'path': 'some/other/file', 'data': r'other file bytes'.encode(), 'meta': { 'type': 'static' }}
         )
-        self.pack = assets.load(self.mock_assets, MockAssetLoader)
+        self.pack = AssetPack()
+        self.pack.register_path(self.mock_assets[0]['path'], self.mock_assets[0]['data'], **self.mock_assets[0]['meta'])
+        self.pack.register_path(self.mock_assets[1]['path'], self.mock_assets[1]['data'], **self.mock_assets[1]['meta'])
     def test_assetpack_data(self):
         asset = self.mock_assets[0]
         data = self.pack.data(asset['path'])
