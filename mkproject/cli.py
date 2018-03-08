@@ -4,8 +4,10 @@ import argparse
 import json
 from pathlib import Path
 from . import __pkg__
-from . import assets
 from .core import Core
+from .assets import AssetLoaderError
+from .project import ProjectRendererError
+from .project import ProjectDumperError
 from .asset_loader import MockAssetLoader
 from .project_renderer import MockProjectRenderer
 from .project_dumper import MockProjectDumper
@@ -72,8 +74,12 @@ def main():
 
     try:
         core.run(cfg, pack_location, dump_location)
-    except assets.AssetLoaderError:
-        die('no asset packs for project type: {}'.format(cfg['type']))
+    except AssetLoaderError as e:
+        die('error loading assets: {}'.format(e))
+    except ProjectRendererError as e:
+        die('error rendering project: {}'.format(e))
+    except ProjectDumperError as e:
+        die('error dumping project: {}'.format(e))
 
     # Tests
     print('cfg: {}'.format(cfg))
