@@ -12,16 +12,18 @@ CLI_HOME   = Path.home() / '.{}'.format(__pkg__)
 CLI_RCFILE = Path(CLI_HOME, 'config.json')
 
 def tokenize_kv(kvstr):
-    i = kvstr.find(':')
-    k = None
+    delim = ':'
+    k = ''
     v = ''
+    i = kvstr.find(delim)
     if i < 0:
         k = kvstr
-    elif len(kvstr) - 1 == i:
-        k = kvstr[:i]
     else:
         k = kvstr[:i]
-        v = kvstr[i+1:]
+        try:
+            v = kvstr[i+1:]
+        except IndexError:
+            pass
     return k, v
 
 def get_basecfg():
