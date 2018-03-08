@@ -15,7 +15,6 @@ from .asset_loader.search import SearchAssetLoader
 from .asset_loader.search import SearchLocation
 
 CLI_HOME   = Path.home() / '.{}'.format(__pkg__)
-CLI_RCFILE = Path(CLI_HOME, 'config.json')
 
 def tokenize_kv(kvstr):
     delim = ':'
@@ -34,8 +33,9 @@ def tokenize_kv(kvstr):
 
 def get_basecfg():
     basecfg = {}
+    rcpath = Path(CLI_HOME, 'config.json')
     try:
-        with CLI_RCFILE.open() as rcfile:
+        with rcpath.open() as rcfile:
             data = rcfile.read()
             basecfg = json.loads(data.decode())
     except OSError as e:
