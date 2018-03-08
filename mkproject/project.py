@@ -25,3 +25,7 @@ def render(cfg, asset_pack, render_class):
     renderer = render_class(cfg, asset_pack)
     renderer.render(project)
     return project
+
+def dump(location, project, dump_class):
+    dumper = dump_class(location)
+    dumper.dump(project)
