@@ -9,6 +9,12 @@ class BaseAssetPack():
         raise NotImplementedError()
 
 class MockAssetPack():
+    def __init__(self, location):
+        self.location = location
+    def __repr__(self):
+        return 'MockAssetPack({})'.format(str(self.location))
+    def __str__(self):
+        return str(self.location)
     def _load_assets(self, path):
         self.assets = {
             'some/file' : r'raw file bytes'.encode(),
