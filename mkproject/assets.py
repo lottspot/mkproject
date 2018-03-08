@@ -1,6 +1,6 @@
-from .exceptions import AssetLoaderError
+from .asset_loader import AssetLoaderError as LoaderError
 
-LoaderError = AssetLoaderError
+AssetLoaderError = LoaderError
 
 class AssetPack():
     def __init__(self):

@@ -1,5 +1,5 @@
 from . import BaseAssetLoader
-from . import LoaderError
+from . import AssetLoaderError
 
 class SearchLocation():
     def __init__(self, base):
@@ -25,6 +25,6 @@ class SearchAssetLoader(BaseAssetLoader):
             try:
                 loader = loader_class(path)
                 return loader.load(pack)
-            except LoaderError:
+            except AssetLoaderError:
                 continue
-        raise LoaderError('Failed to load asset pack from {}'.format(location.base))
+        raise AssetLoaderError('Failed to load asset pack from {}'.format(location.base))

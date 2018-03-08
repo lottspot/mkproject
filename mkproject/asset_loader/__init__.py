@@ -1,7 +1,3 @@
-from ..exceptions import AssetLoaderError
-
-LoaderError = AssetLoaderError
-
 class BaseAssetLoader():
     def __init__(self, location):
         self._location = location
@@ -14,3 +10,5 @@ class BaseAssetLoader():
 
 class MockAssetLoader(BaseAssetLoader):
     def load(self, pack): pass
+
+class AssetLoaderError(Exception): pass

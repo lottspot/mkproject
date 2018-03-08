@@ -1,3 +1,8 @@
+from .project_dumper import ProjectDumperError as DumperError
+from .project_renderer import ProjectRendererError as RendererError
+
+ProjectDumperError = DumperError
+ProjectRendererError = RendererError
 
 class ProjectScaffold():
     def __init__(self):

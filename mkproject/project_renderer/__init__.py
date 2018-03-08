@@ -8,3 +8,5 @@ class BaseProjectRenderer():
 
 class MockProjectRenderer(BaseProjectRenderer):
     def render(self, project): pass
+
+class ProjectRendererError(Exception): pass

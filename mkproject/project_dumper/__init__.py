@@ -6,3 +6,5 @@ class BaseProjectDumper():
 
 class MockProjectDumper(BaseProjectDumper):
     def dump(self, project): pass
+
+class ProjectDumperError(Exception): pass

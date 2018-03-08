@@ -72,7 +72,7 @@ def main():
 
     try:
         core.run(cfg, pack_location, dump_location)
-    except assets.LoaderError:
+    except assets.AssetLoaderError:
         die('no asset packs for project type: {}'.format(cfg['type']))
 
     # Tests

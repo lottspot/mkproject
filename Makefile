@@ -7,7 +7,6 @@ SRCS := \
   $(PROG)/assets.py                     \
   $(PROG)/project.py                    \
   $(PROG)/core.py                       \
-  $(PROG)/exceptions.py                 \
   $(PROG)/asset_loader/__init__.py      \
   $(PROG)/project_dumper/__init__.py    \
   $(PROG)/project_renderer/__init__.py  \
