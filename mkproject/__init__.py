@@ -3,7 +3,8 @@ import sys
 import argparse
 import json
 from pathlib import Path
-from .asset_pack import MockAssetPack
+from .asset_pack import AssetPack
+from .asset_loader import MockAssetLoader
 
 __version__ = '0.0.0'
 __pkg__     = 'mkproject'
@@ -37,15 +38,16 @@ def get_basecfg():
     return basecfg
 
 def load_project_pack(projtype):
+    pack = AssetPack()
     search_base = str(Path(CLI_HOME, projtype))
     try_exstensions = (
-        ('', MockAssetPack),
-        ('.zip', MockAssetPack),
+        ('', MockAssetLoader),
+        ('.zip', MockAssetLoader),
     )
-    for ext, packobj in try_exstensions:
+    for ext, loaderobj in try_exstensions:
         with_ext = search_base + ext
         try_path = Path(with_ext)
-        pack = packobj(try_path)
+        pack.loader = loaderobj(try_path)
         try:
             pack.load()
             return pack
