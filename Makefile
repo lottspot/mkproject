@@ -1,11 +1,17 @@
 PROG := mkproject
 MAIN := $(PROG)/__main__.py
 SRCS := \
-  $(MAIN)                             \
-  $(PROG)/__init__.py                 \
-  $(PROG)/cli.py                      \
-  $(PROG)/assets.py                   \
-  $(PROG)/asset_loader/__init__.py
+  $(MAIN)                               \
+  $(PROG)/__init__.py                   \
+  $(PROG)/cli.py                        \
+  $(PROG)/assets.py                     \
+  $(PROG)/project.py                    \
+  $(PROG)/core.py                       \
+  $(PROG)/exceptions.py                 \
+  $(PROG)/asset_loader/__init__.py      \
+  $(PROG)/project_dumper/__init__.py    \
+  $(PROG)/project_renderer/__init__.py  \
+  $(PROG)/asset_loader/search.py
 
 DIR_ENV         := .env
 DIR_BIN         := $(DIR_ENV)/bin
