@@ -7,7 +7,4 @@ class BaseProjectRenderer():
         raise NotImplementedError()
 
 class MockProjectRenderer(BaseProjectRenderer):
-    def render(self, project):
-        pack = self._pack
-        for path in pack.paths():
-            project.register_path(path, pack.data(path))
+    def render(self, project): pass

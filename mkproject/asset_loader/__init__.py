@@ -13,6 +13,4 @@ class BaseAssetLoader():
         raise NotImplementedError()
 
 class MockAssetLoader(BaseAssetLoader):
-    def load(self, pack):
-        for asset in self.location:
-            pack.register_path(asset['path'], asset['data'], **asset['meta'])
+    def load(self, pack): pass
