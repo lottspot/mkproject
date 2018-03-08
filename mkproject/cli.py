@@ -5,7 +5,10 @@ import json
 from pathlib import Path
 from . import __pkg__
 from . import assets
+from .core import Core
 from .asset_loader import MockAssetLoader
+from .project_renderer import MockProjectRenderer
+from .project_dumper import MockProjectDumper
 from .asset_loader.search import SearchAssetLoader
 from .asset_loader.search import SearchLocation
 
@@ -45,6 +48,7 @@ def die(msg):
     sys.exit(emsg)
 
 def main():
+    core = Core(SearchAssetLoader, MockProjectDumper, MockProjectRenderer)
     cfg = get_basecfg()
     parser = argparse.ArgumentParser()
 
@@ -64,8 +68,10 @@ def main():
     pack_location.register_loader('', MockAssetLoader)
     pack_location.register_loader('.zip', MockAssetLoader)
 
+    dump_location = Path.cwd() / '{}-{}'.format(cfg['type'], cfg['name'])
+
     try:
-        cfg['asset_pack'] = assets.load(pack_location, SearchAssetLoader)
+        core.run(cfg, pack_location, dump_location)
     except assets.LoaderError:
         die('no asset packs for project type: {}'.format(cfg['type']))
 
