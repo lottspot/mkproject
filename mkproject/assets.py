@@ -1,4 +1,5 @@
 from .asset_loader import AssetLoaderError as LoaderError
+from .project import ProjectScaffold
 
 AssetLoaderError = LoaderError
 
@@ -31,6 +32,18 @@ class AssetPack():
                 'meta': self.meta(path)
             })
         return tuple(assets)
+    def transform(self, transformer_map={}, cfg={}):
+        proj = ProjectScaffold()
+        for asset in self.assets():
+            transform = lambda path, data, meta, cfg: (path, data)
+            meta = asset['meta']
+            try:
+                transform = transformer_map[meta['type']]
+            except KeyError:
+                pass
+            path, data = transform(cfg=cfg, **asset)
+            proj.register_path(path, data)
+        return proj
 
 def load(location, loader_class):
     pack = AssetPack()
