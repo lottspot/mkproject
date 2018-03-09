@@ -52,7 +52,6 @@ def die(msg):
 def main():
 
     # Base objects
-    core = Core(SearchAssetLoader, MockProjectDumper, MockProjectRenderer)
     cfg = get_basecfg()
     parser = argparse.ArgumentParser()
 
@@ -75,6 +74,7 @@ def main():
         die('missing required value -t/--type')
 
     # Config derived objects
+    core = Core(SearchAssetLoader, MockProjectDumper, cfg=cfg)
     search_base = str(CLI_HOME / cfg['type'])
     pack_location = SearchLocation(search_base)
     pack_location.register_loader('', MockAssetLoader)
@@ -83,7 +83,7 @@ def main():
 
     # Run
     try:
-        core.run(cfg, pack_location, dump_location)
+        core.run(pack_location, dump_location)
     except AssetLoaderError as e:
         die('error loading assets: {}'.format(e))
     except ProjectRendererError as e:
