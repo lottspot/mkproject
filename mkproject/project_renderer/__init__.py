@@ -7,6 +7,10 @@ class BaseProjectRenderer():
         raise NotImplementedError()
 
 class MockProjectRenderer(BaseProjectRenderer):
-    def render(self, project): pass
+    def render(self, project):
+        try:
+            self.ncalls += 1
+        except AttributeError:
+            self.ncalls = 1
 
 class ProjectRendererError(Exception): pass

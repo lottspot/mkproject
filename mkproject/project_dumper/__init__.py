@@ -5,6 +5,10 @@ class BaseProjectDumper():
         raise NotImplementedError()
 
 class MockProjectDumper(BaseProjectDumper):
-    def dump(self, project): pass
+    def dump(self, project):
+        try:
+            self.ncalls += 1
+        except AttributeError:
+            self.ncalls = 1
 
 class ProjectDumperError(Exception): pass

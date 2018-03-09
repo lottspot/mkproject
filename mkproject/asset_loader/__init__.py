@@ -9,6 +9,10 @@ class BaseAssetLoader():
         raise NotImplementedError()
 
 class MockAssetLoader(BaseAssetLoader):
-    def load(self, pack): pass
+    def load(self, pack):
+        try:
+            self.ncalls += 1
+        except AttributeError:
+            self.ncalls = 1
 
 class AssetLoaderError(Exception): pass
