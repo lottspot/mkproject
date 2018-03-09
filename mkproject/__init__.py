@@ -1,4 +1,4 @@
-from .assets import AssetPack
+from .asset_pack import AssetPack
 from .loader import LoaderError as _LoaderError
 from .dumper import DumperError as _DumperError
 from .transformer import TransformerError as _TransformerError

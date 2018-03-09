@@ -1,4 +1,3 @@
-from .project import ProjectScaffold
 from .transformer import transform as default_transform
 
 class AssetPack():
@@ -8,19 +7,19 @@ class AssetPack():
     def register_path(self, path, data, **meta):
         self._data[path] = data
         self._meta[path] = dict(meta)
+    def paths(self):
+        return tuple(self._data.keys())
     def data(self, path):
         try:
             return self._data[path]
         except KeyError:
-            raise AttributeError('No asset for path: {}'.format(path))
+            raise AttributeError('Unregistered path: {}'.format(path))
     def meta(self, path):
         try:
             self._data[path]
         except KeyError:
             raise AttributeError('No asset for path: {}'.format(path))
         return self._meta.get(path, {})
-    def paths(self):
-        return tuple(self._data.keys())
     def assets(self):
         assets = []
         for path in self.paths():
@@ -31,14 +30,15 @@ class AssetPack():
             })
         return tuple(assets)
     def transform(self, cfg={}, transformer_map={}):
-        proj = ProjectScaffold()
+        pack = AssetPack()
         for asset in self.assets():
             transform = default_transform
-            meta = asset['meta']
+            meta = dict(asset['meta'])
             try:
                 transform = transformer_map[meta['type']]
+                meta.pop('type') # Prevent transforming on subsequent transform() calls
             except KeyError:
                 pass
             path, data = transform(cfg=cfg, **asset)
-            proj.register_path(path, data)
-        return proj
+            pack.register_path(path, data, **meta)
+        return pack

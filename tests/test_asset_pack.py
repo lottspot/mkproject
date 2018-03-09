@@ -1,6 +1,5 @@
 import unittest
-from mkproject.assets import AssetPack
-from mkproject.project import ProjectScaffold
+from mkproject.asset_pack import AssetPack
 
 class TestAssetPack(unittest.TestCase):
     def setUp(self):
@@ -28,6 +27,6 @@ class TestAssetPack(unittest.TestCase):
         assets = self.pack.assets()
         self.assertTupleEqual(expect, assets)
     def test_assetpack_transform(self):
-        proj = self.pack.transform()
-        self.assertEqual(proj.data(self.mock_assets[0]['path']), self.mock_assets[0]['data'])
-        self.assertEqual(proj.data(self.mock_assets[1]['path']), self.mock_assets[1]['data'])
+        pack = self.pack.transform()
+        self.assertEqual(pack.data(self.mock_assets[0]['path']), self.mock_assets[0]['data'])
+        self.assertEqual(pack.data(self.mock_assets[1]['path']), self.mock_assets[1]['data'])

@@ -4,8 +4,7 @@ SRCS := \
   $(MAIN)                               \
   $(PROG)/__init__.py                   \
   $(PROG)/cli.py                        \
-  $(PROG)/assets.py                     \
-  $(PROG)/project.py                    \
+  $(PROG)/asset_pack.py                 \
   $(PROG)/loader/__init__.py            \
   $(PROG)/dumper/__init__.py            \
   $(PROG)/transformer/__init__.py       \
