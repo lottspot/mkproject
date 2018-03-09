@@ -38,15 +38,22 @@ class AssetPack():
         pack = AssetPack()
         for asset in self.assets():
             asset = copy.deepcopy(asset)
-            transform = default_transform
-            asset_type = asset['meta'].get('type')
-            try:
-                transform = transformer_map[asset_type]
-            except KeyError:
-                pass
-            path, data, meta = transform(cfg, **asset)
-            if meta.get('type') == asset_type and asset_type is not None:
-                # Prevent transformation on subsequent transform() calls
-                meta.pop('type')
+            mapnames = asset['meta'].pop('pipeline', [])
+            pipeline = []
+            for name in mapnames:
+                try:
+                    step = transformer_map[name]
+                    pipeline.append(step)
+                except KeyError:
+                    raise RuntimeError('failed to transform {}: no transformer: {}'.format(asset['path'], name))
+            if len(pipeline) < 1:
+                pipeline.append(default_transform)
+            path, data, meta = self._transform_pipeline(pipeline, cfg, **asset)
             pack.register_path(path, data, **meta)
         return pack
+    def _transform_pipeline(self, pipeline, cfg, path, data, meta):
+        transform = pipeline[0]
+        if len(pipeline) == 1:
+            return transform(cfg, path, data, meta)
+        else:
+            return self._transform_pipeline(pipeline[1:], cfg, *transform(cfg, path, data, meta))
