@@ -1,4 +1,4 @@
-def transform(path, data, meta, cfg):
-    return path, data
+def transform(cfg, path, data, meta):
+    return path, data, meta
 
 class TransformerError(Exception): pass

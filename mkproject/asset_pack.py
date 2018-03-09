@@ -1,3 +1,4 @@
+import copy
 from .transformer import transform as default_transform
 
 class AssetPack():
@@ -32,13 +33,16 @@ class AssetPack():
     def transform(self, cfg={}, transformer_map={}):
         pack = AssetPack()
         for asset in self.assets():
+            asset = copy.deepcopy(asset)
             transform = default_transform
-            meta = dict(asset['meta'])
+            asset_type = asset['meta'].get('type')
             try:
-                transform = transformer_map[meta['type']]
-                meta.pop('type') # Prevent transforming on subsequent transform() calls
+                transform = transformer_map[asset_type]
             except KeyError:
                 pass
-            path, data = transform(cfg=cfg, **asset)
+            path, data, meta = transform(cfg, **asset)
+            if meta.get('type') == asset_type and asset_type is not None:
+                # Prevent transformation on subsequent transform() calls
+                meta.pop('type')
             pack.register_path(path, data, **meta)
         return pack
