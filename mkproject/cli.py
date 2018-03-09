@@ -50,28 +50,39 @@ def die(msg):
     sys.exit(emsg)
 
 def main():
+
+    # Base objects
     core = Core(SearchAssetLoader, MockProjectDumper, MockProjectRenderer)
     cfg = get_basecfg()
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--type', required=True, dest='projtype')
+    # CLI Interface
+    parser.add_argument('-t', '--type', required=False, dest='projtype')
     parser.add_argument('name')
     parser.add_argument('config', nargs='*', default=[])
 
+    # CLI values & config merge
     args = parser.parse_args()
-
     for pair in args.config:
         k, v = tokenize_kv(pair)
         cfg[k] = v
     cfg['name'] = args.name
-    cfg['type'] = args.projtype
+    if args.projtype is not None:
+        cfg['type'] = args.projtype
 
-    pack_location = SearchLocation(str(CLI_HOME / cfg['type']))
+
+    # Validate finalized config
+    if 'type' not in cfg.keys():
+        die('missing required value -t/--type')
+
+    # Config derived objects
+    search_base = str(CLI_HOME / cfg['type'])
+    pack_location = SearchLocation(search_base)
     pack_location.register_loader('', MockAssetLoader)
     pack_location.register_loader('.zip', MockAssetLoader)
-
     dump_location = Path.cwd() / '{}-{}'.format(cfg['type'], cfg['name'])
 
+    # Run
     try:
         core.run(cfg, pack_location, dump_location)
     except AssetLoaderError as e:
