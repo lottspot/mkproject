@@ -1,8 +1,5 @@
-from .loader import LoaderError as _LoaderError
 from .project import ProjectScaffold
 from .transformer import transform as default_transform
-
-LoaderError = _LoaderError
 
 class AssetPack():
     def __init__(self):
@@ -45,9 +42,3 @@ class AssetPack():
             path, data = transform(cfg=cfg, **asset)
             proj.register_path(path, data)
         return proj
-
-def load(location, loader_class):
-    pack = AssetPack()
-    loader = loader_class(location)
-    loader.load(pack)
-    return pack

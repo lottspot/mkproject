@@ -6,7 +6,6 @@ SRCS := \
   $(PROG)/cli.py                        \
   $(PROG)/assets.py                     \
   $(PROG)/project.py                    \
-  $(PROG)/core.py                       \
   $(PROG)/loader/__init__.py            \
   $(PROG)/dumper/__init__.py            \
   $(PROG)/transformer/__init__.py       \

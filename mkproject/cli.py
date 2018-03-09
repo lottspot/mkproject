@@ -4,10 +4,10 @@ import argparse
 import json
 from pathlib import Path
 from . import __pkg__
-from .core import Core
-from .assets import LoaderError
-from .transformer import TransformerError
-from .project import DumperError
+from . import Project
+from . import LoaderError
+from . import TransformerError
+from . import DumperError
 from .loader import MockLoader
 from .dumper import MockDumper
 from .loader.search import SearchLoader
@@ -73,7 +73,7 @@ def main():
         die('missing required value -t/--type')
 
     # Config derived objects
-    core = Core(SearchLoader, MockDumper, cfg=cfg)
+    project = Project(SearchLoader, MockDumper, cfg=cfg)
     search_base = str(CLI_HOME / cfg['type'])
     pack_location = SearchLocation(search_base)
     pack_location.register_loader('', MockLoader)
@@ -82,7 +82,7 @@ def main():
 
     # Run
     try:
-        core.run(pack_location, dump_location)
+        project.run(pack_location, dump_location)
     except LoaderError as e:
         die('error loading assets: {}'.format(e))
     except TransformerError as e:

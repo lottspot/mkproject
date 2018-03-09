@@ -1,6 +1,3 @@
-from .dumper import DumperError as _DumperError
-
-DumperError = _DumperError
 
 class ProjectScaffold():
     def __init__(self):
@@ -22,7 +19,3 @@ class ProjectScaffold():
                 'data': self.data(path)
             })
         return tuple(project)
-
-def dump(location, project, dump_class):
-    dumper = dump_class(location)
-    dumper.dump(project)
