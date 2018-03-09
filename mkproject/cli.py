@@ -73,16 +73,16 @@ def main():
         die('missing required value -t/--type')
 
     # Config derived objects
-    project = Project(SearchLoader, MockDumper, cfg=cfg)
+    project = Project(cfg, SearchLoader, MockDumper)
     search_base = str(CLI_HOME / cfg['type'])
-    pack_location = SearchLocation(search_base)
-    pack_location.register_loader('', MockLoader)
-    pack_location.register_loader('.zip', MockLoader)
+    load_location = SearchLocation(search_base)
+    load_location.register_loader('', MockLoader)
+    load_location.register_loader('.zip', MockLoader)
     dump_location = Path.cwd() / '{}-{}'.format(cfg['type'], cfg['name'])
 
     # Run
     try:
-        project.run(pack_location, dump_location)
+        project.make(load_location, dump_location)
     except LoaderError as e:
         die('error loading assets: {}'.format(e))
     except TransformerError as e:
