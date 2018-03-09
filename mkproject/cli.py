@@ -70,7 +70,6 @@ def main():
     if args.projtype is not None:
         cfg['type'] = args.projtype
 
-
     # Validate finalized config
     if 'type' not in cfg.keys():
         die('missing required value -t/--type')
