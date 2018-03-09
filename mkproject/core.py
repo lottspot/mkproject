@@ -2,9 +2,9 @@ from . import assets
 from . import project
 
 class Core():
-    def __init__(self, asset_loader, project_dumper, transformer_map={}, cfg={}):
-        self._loader = asset_loader
-        self._dumper = project_dumper
+    def __init__(self, loader, dumper, transformer_map={}, cfg={}):
+        self._loader = loader
+        self._dumper = dumper
         self._transformer_map = transformer_map
         self._cfg = cfg
     def load(self, location):

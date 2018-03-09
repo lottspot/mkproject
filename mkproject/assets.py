@@ -1,8 +1,8 @@
-from .asset_loader import AssetLoaderError as LoaderError
+from .loader import LoaderError as _LoaderError
 from .project import ProjectScaffold
 from .transformer import transform as default_transform
 
-AssetLoaderError = LoaderError
+LoaderError = _LoaderError
 
 class AssetPack():
     def __init__(self):

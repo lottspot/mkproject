@@ -1,14 +1,14 @@
-class BaseProjectDumper():
+class BaseDumper():
     def __init__(self, location):
         self._location = location
     def dump(self, project):
         raise NotImplementedError()
 
-class MockProjectDumper(BaseProjectDumper):
+class MockDumper(BaseDumper):
     def dump(self, project):
         try:
             self.ncalls += 1
         except AttributeError:
             self.ncalls = 1
 
-class ProjectDumperError(Exception): pass
+class DumperError(Exception): pass

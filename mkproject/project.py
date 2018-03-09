@@ -1,6 +1,6 @@
-from .project_dumper import ProjectDumperError as DumperError
+from .dumper import DumperError as _DumperError
 
-ProjectDumperError = DumperError
+DumperError = _DumperError
 
 class ProjectScaffold():
     def __init__(self):

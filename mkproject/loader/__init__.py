@@ -1,4 +1,4 @@
-class BaseAssetLoader():
+class BaseLoader():
     def __init__(self, location):
         self._location = location
     def __repr__(self):
@@ -8,11 +8,11 @@ class BaseAssetLoader():
     def load(self, pack):
         raise NotImplementedError()
 
-class MockAssetLoader(BaseAssetLoader):
+class MockLoader(BaseLoader):
     def load(self, pack):
         try:
             self.ncalls += 1
         except AttributeError:
             self.ncalls = 1
 
-class AssetLoaderError(Exception): pass
+class LoaderError(Exception): pass

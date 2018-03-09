@@ -5,13 +5,13 @@ import json
 from pathlib import Path
 from . import __pkg__
 from .core import Core
-from .assets import AssetLoaderError
+from .assets import LoaderError
 from .transformer import TransformerError
-from .project import ProjectDumperError
-from .asset_loader import MockAssetLoader
-from .project_dumper import MockProjectDumper
-from .asset_loader.search import SearchAssetLoader
-from .asset_loader.search import SearchLocation
+from .project import DumperError
+from .loader import MockLoader
+from .dumper import MockDumper
+from .loader.search import SearchLoader
+from .loader.search import SearchLocation
 
 CLI_HOME = Path.home() / '.{}'.format(__pkg__)
 
@@ -73,21 +73,21 @@ def main():
         die('missing required value -t/--type')
 
     # Config derived objects
-    core = Core(SearchAssetLoader, MockProjectDumper, cfg=cfg)
+    core = Core(SearchLoader, MockDumper, cfg=cfg)
     search_base = str(CLI_HOME / cfg['type'])
     pack_location = SearchLocation(search_base)
-    pack_location.register_loader('', MockAssetLoader)
-    pack_location.register_loader('.zip', MockAssetLoader)
+    pack_location.register_loader('', MockLoader)
+    pack_location.register_loader('.zip', MockLoader)
     dump_location = Path.cwd() / '{}-{}'.format(cfg['type'], cfg['name'])
 
     # Run
     try:
         core.run(pack_location, dump_location)
-    except AssetLoaderError as e:
+    except LoaderError as e:
         die('error loading assets: {}'.format(e))
     except TransformerError as e:
         die('error transforming assets: {}'.format(e))
-    except ProjectDumperError as e:
+    except DumperError as e:
         die('error dumping project: {}'.format(e))
 
     # Tests

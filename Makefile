@@ -7,9 +7,9 @@ SRCS := \
   $(PROG)/assets.py                     \
   $(PROG)/project.py                    \
   $(PROG)/core.py                       \
-  $(PROG)/asset_loader/__init__.py      \
-  $(PROG)/project_dumper/__init__.py    \
-  $(PROG)/asset_loader/search.py
+  $(PROG)/loader/__init__.py            \
+  $(PROG)/dumper/__init__.py            \
+  $(PROG)/loader/search.py
 
 DIR_ENV         := .env
 DIR_BIN         := $(DIR_ENV)/bin
