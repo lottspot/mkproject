@@ -33,7 +33,7 @@ class AssetPack():
                 'meta': self.meta(path)
             })
         return tuple(assets)
-    def transform(self, transformer_map={}, cfg={}):
+    def transform(self, cfg={}, transformer_map={}):
         proj = ProjectScaffold()
         for asset in self.assets():
             transform = default_transform
