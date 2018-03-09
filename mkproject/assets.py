@@ -1,5 +1,6 @@
 from .asset_loader import AssetLoaderError as LoaderError
 from .project import ProjectScaffold
+from .transformer import transform as default_transform
 
 AssetLoaderError = LoaderError
 
@@ -35,7 +36,7 @@ class AssetPack():
     def transform(self, transformer_map={}, cfg={}):
         proj = ProjectScaffold()
         for asset in self.assets():
-            transform = lambda path, data, meta, cfg: (path, data)
+            transform = default_transform
             meta = asset['meta']
             try:
                 transform = transformer_map[meta['type']]
