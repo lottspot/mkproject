@@ -14,7 +14,7 @@ from .project_dumper import MockProjectDumper
 from .asset_loader.search import SearchAssetLoader
 from .asset_loader.search import SearchLocation
 
-CLI_HOME   = Path.home() / '.{}'.format(__pkg__)
+CLI_HOME = Path.home() / '.{}'.format(__pkg__)
 
 def tokenize_kv(kvstr):
     delim = ':'
