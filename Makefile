@@ -9,7 +9,6 @@ SRCS := \
   $(PROG)/core.py                       \
   $(PROG)/asset_loader/__init__.py      \
   $(PROG)/project_dumper/__init__.py    \
-  $(PROG)/project_renderer/__init__.py  \
   $(PROG)/asset_loader/search.py
 
 DIR_ENV         := .env

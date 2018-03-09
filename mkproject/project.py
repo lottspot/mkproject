@@ -1,8 +1,6 @@
 from .project_dumper import ProjectDumperError as DumperError
-from .project_renderer import ProjectRendererError as RendererError
 
 ProjectDumperError = DumperError
-ProjectRendererError = RendererError
 
 class ProjectScaffold():
     def __init__(self):
@@ -24,12 +22,6 @@ class ProjectScaffold():
                 'data': self.data(path)
             })
         return tuple(project)
-
-def render(cfg, asset_pack, render_class):
-    project = ProjectScaffold()
-    renderer = render_class(cfg, asset_pack)
-    renderer.render(project)
-    return project
 
 def dump(location, project, dump_class):
     dumper = dump_class(location)

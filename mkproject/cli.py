@@ -6,10 +6,9 @@ from pathlib import Path
 from . import __pkg__
 from .core import Core
 from .assets import AssetLoaderError
-from .project import ProjectRendererError
+from .transformer import TransformerError
 from .project import ProjectDumperError
 from .asset_loader import MockAssetLoader
-from .project_renderer import MockProjectRenderer
 from .project_dumper import MockProjectDumper
 from .asset_loader.search import SearchAssetLoader
 from .asset_loader.search import SearchLocation
@@ -86,8 +85,8 @@ def main():
         core.run(pack_location, dump_location)
     except AssetLoaderError as e:
         die('error loading assets: {}'.format(e))
-    except ProjectRendererError as e:
-        die('error rendering project: {}'.format(e))
+    except TransformerError as e:
+        die('error transforming assets: {}'.format(e))
     except ProjectDumperError as e:
         die('error dumping project: {}'.format(e))
 
