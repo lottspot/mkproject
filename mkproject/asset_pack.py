@@ -16,7 +16,7 @@ class AssetPack():
         return tuple(self._data.keys())
     def data(self, path):
         try:
-            return self._data[path]
+            return copy.deepcopy(self._data[path])
         except KeyError:
             raise AttributeError('Unregistered path: {}'.format(path))
     def meta(self, path):
@@ -24,7 +24,7 @@ class AssetPack():
             self._data[path]
         except KeyError:
             raise AttributeError('No asset for path: {}'.format(path))
-        return self._meta.get(path, {})
+        return dict(self._meta.get(path, {}))
     def assets(self):
         assets = []
         for path in self.paths():
