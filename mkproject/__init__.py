@@ -32,7 +32,7 @@ class Project():
             pack = self._pack
         except AttributeError:
             raise RuntimeError('No asset pack loaded')
-        self._pack = pack.transform(self._cfg, transformer_map)
+        self._pack = pack.transform(transformer_map, self._cfg)
     def dump(self, location):
         try:
             pack = self._pack

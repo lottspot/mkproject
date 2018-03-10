@@ -34,7 +34,7 @@ class AssetPack():
                 'meta': self.meta(path)
             })
         return tuple(assets)
-    def transform(self, cfg={}, transformer_map={}):
+    def transform(self, transformer_map={}, cfg={}):
         pack = AssetPack()
         for asset in self.assets():
             asset = copy.deepcopy(asset)

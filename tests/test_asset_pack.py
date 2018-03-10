@@ -36,5 +36,5 @@ class TestAssetPack(unittest.TestCase):
             'btoc': lambda cfg, path, data, meta: (path, 'c', meta) if data == 'b' else (path, data, meta)
         }
         self.pack.register_path('/data/a', 'a', pipeline=['atob', 'btoc'])
-        pack = self.pack.transform({}, transformer_map)
+        pack = self.pack.transform(transformer_map, {})
         self.assertEqual(pack.data('/data/a'), 'c')
