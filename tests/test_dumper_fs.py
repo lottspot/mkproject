@@ -43,7 +43,7 @@ class TestFSDumper(unittest.TestCase):
     def setUp(self):
         MockFile.clear()
         self.dumper = FSDumper('/dev/null')
-        self.dumper.Path = MockPath
+        self.dumper._Path = MockPath
         self.pack = MockAssetPack()
     def test_dumper_fs_dumped_pack(self):
         assets = (

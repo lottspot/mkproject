@@ -4,9 +4,9 @@ from . import BaseDumper
 from . import DumperError
 
 class FSDumper(BaseDumper):
-    Path = Path
+    _Path = Path
     def dump(self, pack):
-        base = self.Path(self._location)
+        base = self._Path(self._location)
         dirlist = []
         try:
             dirlist = [ f for f in base.iterdir() ]
@@ -20,7 +20,7 @@ class FSDumper(BaseDumper):
         if len(dirlist) > 0:
             raise DumperError('non-empty directory: {}'.format(str(base)))
         for pathtail in pack.paths():
-            path = self.Path(base, pathtail)
+            path = self._Path(base, pathtail)
             data = pack.data(pathtail)
             try:
                 self._write_path(path, data)
