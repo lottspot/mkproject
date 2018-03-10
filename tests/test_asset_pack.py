@@ -8,8 +8,8 @@ class TestAssetPack(unittest.TestCase):
                 {'path': 'some/other/file', 'data': r'other file bytes'.encode(), 'meta': { 'type': 'static' }}
         )
         self.pack = AssetPack()
-        self.pack.register_path(self.mock_assets[0]['path'], self.mock_assets[0]['data'], **self.mock_assets[0]['meta'])
-        self.pack.register_path(self.mock_assets[1]['path'], self.mock_assets[1]['data'], **self.mock_assets[1]['meta'])
+        self.pack.register_path(self.mock_assets[0]['path'], self.mock_assets[0]['data'], self.mock_assets[0]['meta'])
+        self.pack.register_path(self.mock_assets[1]['path'], self.mock_assets[1]['data'], self.mock_assets[1]['meta'])
     def test_assetpack_data(self):
         asset = self.mock_assets[0]
         data = self.pack.data(asset['path'])
@@ -40,6 +40,6 @@ class TestAssetPack(unittest.TestCase):
             'atob': lambda cfg, path, data, meta: (path, 'b', meta) if data == 'a' else (path, data, meta),
             'btoc': lambda cfg, path, data, meta: (path, 'c', meta) if data == 'b' else (path, data, meta)
         }
-        self.pack.register_path('/data/a', 'a', pipeline=['atob', 'btoc'])
+        self.pack.register_path('/data/a', 'a', {'pipeline': ['atob', 'btoc']})
         pack = self.pack.transform(transformer_map, {})
         self.assertEqual(pack.data('/data/a'), 'c')

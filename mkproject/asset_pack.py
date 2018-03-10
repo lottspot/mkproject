@@ -9,7 +9,7 @@ class AssetPack():
         return '{}{}'.format(self.__name__, str(self.paths()))
     def __str__(self):
         return str(self.paths())
-    def register_path(self, path, data, **meta):
+    def register_path(self, path, data, meta={}):
         self._data[path] = data
         self._meta[path] = dict(meta)
     def paths(self):
@@ -48,7 +48,7 @@ class AssetPack():
             if len(pipeline) < 1:
                 pipeline.append(default_transform)
             transformed = self._transform_pipeline(pipeline, cfg, path, data, meta)
-            pack.register_path(transformed[0], transformed[1], **transformed[2])
+            pack.register_path(*transformed)
         return pack
     def _transform_pipeline(self, pipeline, cfg, path, data, meta):
         transform = pipeline[0]
