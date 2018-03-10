@@ -23,7 +23,12 @@ class TestAssetPack(unittest.TestCase):
         paths = self.pack.paths()
         self.assertTupleEqual(expect, paths)
     def test_assetpack_assets(self):
-        expect = tuple(self.mock_assets)
+        expect = []
+        for asset in self.mock_assets:
+            expect.append(
+                (asset['path'], asset['data'], asset['meta'])
+            )
+        expect = tuple(expect)
         assets = self.pack.assets()
         self.assertTupleEqual(expect, assets)
     def test_assetpack_transform(self):

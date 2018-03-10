@@ -28,16 +28,16 @@ class AssetPack():
     def assets(self):
         assets = []
         for path in self.paths():
-            assets.append({
-                'path': path,
-                'data': self.data(path),
-                'meta': self.meta(path)
-            })
+            assets.append((
+                path,
+                self.data(path),
+                self.meta(path)
+            ))
         return tuple(assets)
     def transform(self, transformer_map={}, cfg={}):
         pack = AssetPack()
-        for asset in self.assets():
-            mapnames = asset['meta'].pop('pipeline', [])
+        for path, data, meta in self.assets():
+            mapnames = meta.pop('pipeline', [])
             pipeline = []
             for name in mapnames:
                 try:
@@ -47,8 +47,8 @@ class AssetPack():
                     raise RuntimeError('failed to transform {}: no transformer: {}'.format(asset['path'], name))
             if len(pipeline) < 1:
                 pipeline.append(default_transform)
-            path, data, meta = self._transform_pipeline(pipeline, cfg, **asset)
-            pack.register_path(path, data, **meta)
+            transformed = self._transform_pipeline(pipeline, cfg, path, data, meta)
+            pack.register_path(transformed[0], transformed[1], **transformed[2])
         return pack
     def _transform_pipeline(self, pipeline, cfg, path, data, meta):
         transform = pipeline[0]
