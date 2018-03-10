@@ -20,7 +20,7 @@ class SearchLocation():
 
 class SearchLoader(BaseLoader):
     def load(self, pack):
-        search_paths = self._location.get()
+        search_paths = self.location.get()
         for path, loader_class in search_paths:
             try:
                 loader = loader_class(path)

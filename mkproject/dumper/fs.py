@@ -6,7 +6,7 @@ from . import DumperError
 class FSDumper(BaseDumper):
     _Path = Path
     def dump(self, pack):
-        base = self._Path(self._location)
+        base = self._Path(self.location)
         dirlist = []
         try:
             try:
