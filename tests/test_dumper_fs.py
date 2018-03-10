@@ -32,69 +32,26 @@ class TestFSDumper(unittest.TestCase):
         self.pack.assets = assets
         self.dumper._Path.return_value = path
         self.dumper.dump(self.pack)
-        path.open().__enter__().write.called_any('data1')
-        path.open().__enter__().write.called_any('data2')
-        path.open().__enter__().write.called_any('data3')
+        self.dumper._Path.called_any(path, 'a/1')
+        self.dumper._Path.called_any(path, '2')
+        self.dumper._Path.called_any(path, 'a/3')
+        path.write_bytes.called_any('data1')
+        path.write_bytes.called_any('data2')
+        path.write_bytes.called_any('data3')
     def test_dumper_fs_dumped_pack_withparents(self):
         path = MagicMock()
-        path.open.side_effect = [FileNotFoundError, path]
+        path.write_bytes.side_effect = [FileNotFoundError, path]
         self.pack.assets = [('a/1', 'data')]
         self.dumper._Path.return_value = path
         self.dumper.dump(self.pack)
         path.parent.mkdir.assert_called_once_with(parents=True)
-    def test_dumper_fs_dumped_pack_parent_error(self):
-        path = MagicMock()
-        path.open.side_effect = FileNotFoundError
-        path.parent.mkdir.side_effect = EnvironmentError
-        self.pack.assets = [('a/1', 'data')]
-        self.dumper._Path.return_value = path
-        try:
-            self.dumper.dump(self.pack)
-        except DumperError:
-            path.parent.mkdir.assert_called_once()
-            return
-        raise RuntimeError('Unexpected test pass')
-    def test_dumper_fs_dump_error(self):
-        path = MagicMock()
-        path.open.side_effect = EnvironmentError
-        self.pack.assets = [('a/1', 'data')]
-        self.dumper._Path.return_value = path
-        try:
-            self.dumper.dump(self.pack)
-        except DumperError:
-            path.parent.mkdir.assert_not_called()
-            path.open.assert_called_once()
-            return
-        raise RuntimeError('Unexpected test pass')
-    def test_dumper_fs_create_location(self):
+    def test_dumper_fs_location_create(self):
         base = MagicMock()
         base.iterdir.side_effect = FileNotFoundError
         self.dumper._Path.side_effect = [base]
         self.dumper.dump(self.pack)
         base.iterdir.assert_called_once()
         base.mkdir.assert_called_once()
-    def test_dumper_fs_create_location_fail(self):
-        base = MagicMock()
-        base.iterdir.side_effect = FileNotFoundError
-        base.mkdir.side_effect = EnvironmentError
-        self.dumper._Path.side_effect = [base]
-        try:
-            self.dumper.dump(self.pack)
-        except DumperError:
-            base.iterdir.assert_called_once()
-            base.mkdir.assert_called_once()
-            return
-        raise RuntimeError('Unexpected test pass')
-    def test_dumper_fs_location_error(self):
-        base = MagicMock()
-        base.iterdir.side_effect = EnvironmentError
-        self.dumper._Path.side_effect = [base]
-        try:
-            self.dumper.dump(self.pack)
-        except DumperError:
-            base.iterdir.assert_called_once()
-            return
-        raise RuntimeError('Unexpected test pass')
     def test_dumper_fs_location_nonempty(self):
         base = MagicMock()
         base.iterdir.return_value = ['1', '2']
@@ -106,3 +63,19 @@ class TestFSDumper(unittest.TestCase):
             self.assertTrue(str(e).startswith('non-empty directory'))
             return
         raise RuntimeError('Unexpected test pass')
+    def test_dumper_fs_dump_enverror(self):
+        path = MagicMock()
+        path.write_bytes.side_effect = EnvironmentError
+        self.pack.assets = [('a/1', 'data')]
+        self.dumper._Path.return_value = path
+        try:
+            self.dumper.dump(self.pack)
+        except DumperError:
+            path.write_bytes.assert_called_once()
+            return
+        raise RuntimeError('Unexpected test pass')
+    def test_dumper_fs_data_encode(self):
+        data = MagicMock()
+        self.pack.assets = [('a/1', data)]
+        self.dumper.dump(self.pack)
+        data.encode.assert_called_once()
