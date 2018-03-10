@@ -3,6 +3,7 @@ from .transformer import transform as default_transform
 
 class AssetPack():
     def __init__(self):
+        self._paths = []
         self._data = {}
         self._meta = {}
     def __repr__(self):
@@ -10,10 +11,16 @@ class AssetPack():
     def __str__(self):
         return str(self.paths())
     def register_path(self, path, data, meta={}):
-        self._data[path] = data
-        self._meta[path] = dict(meta)
+        try:
+            self._paths.index(path)
+        except ValueError:
+            self._paths.append(path)
+            self._data[path] = data
+            self._meta[path] = dict(meta)
+            return
+        raise AttributeError('Cannot overwrite registered path: {}'.format(path))
     def paths(self):
-        return copy.deepcopy(tuple(self._data.keys()))
+        return copy.deepcopy(tuple(self._paths))
     def data(self, path):
         try:
             return copy.deepcopy(self._data[path])

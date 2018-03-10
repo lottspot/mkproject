@@ -43,3 +43,10 @@ class TestAssetPack(unittest.TestCase):
         self.pack.register_path('/data/a', 'a', {'pipeline': ['atob', 'btoc']})
         pack = self.pack.transform(transformer_map, {})
         self.assertEqual(pack.data('/data/a'), 'c')
+    def test_assetpack_path_overwrite(self):
+        try:
+            self.pack.register_path('a', 'data-a')
+            self.pack.register_path('a', 'data-b')
+        except AttributeError:
+            return
+        raise RuntimeError('Unexpected test pass')
