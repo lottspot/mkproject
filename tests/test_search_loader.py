@@ -1,39 +1,27 @@
 import unittest
 from mkproject import LoaderError
+from unittest.mock import MagicMock
 from mkproject.loader.search import SearchLoader
-
-class MockLoader():
-    def __init__(self, location):
-        self.location = location
-    def load(self, pack):
-        pack['loaded'] = self.location
-
-class MockErrorLoader():
-    def __init__(self, location): pass
-    def load(self, pack): raise LoaderError()
-
-class MockSearchLocation():
-    def __init__(self):
-        self.paths = None
-    def get(self):
-        return self.paths
 
 class TestSearchLoader(unittest.TestCase):
     def setUp(self):
-        self.location = MockSearchLocation()
+        self.location = MagicMock()
         self.loader = SearchLoader(self.location)
-        self.pack = {}
     def test_searchloader_load_first(self):
-        self.location.paths = (
-            ('/search/path/1', MockLoader),
-            ('/search/path/2', MockLoader)
+        loader = MagicMock()
+        self.location.get.return_value = (
+            ('/search/path/1', loader),
+            ('/search/path/2', loader)
         )
-        self.loader.load(self.pack)
-        self.assertEqual(self.pack['loaded'], '/search/path/1')
+        self.loader.load(None)
+        loader().load.assert_called_once_with(None)
     def test_searchloader_load_second(self):
-        self.location.paths = (
-            ('/search/path/1', MockErrorLoader),
-            ('/search/path/2', MockLoader)
+        loader = MagicMock()
+        eloader = MagicMock()
+        eloader().load.side_effect = LoaderError
+        self.location.get.return_value = (
+            ('/search/path/1', eloader),
+            ('/search/path/2', loader)
         )
-        self.loader.load(self.pack)
-        self.assertEqual(self.pack['loaded'], '/search/path/2')
+        self.loader.load(None)
+        loader().load.assert_called_once_with(None)
