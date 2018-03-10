@@ -13,7 +13,7 @@ class AssetPack():
         self._data[path] = data
         self._meta[path] = dict(meta)
     def paths(self):
-        return tuple(self._data.keys())
+        return copy.deepcopy(tuple(self._data.keys()))
     def data(self, path):
         try:
             return copy.deepcopy(self._data[path])
@@ -24,7 +24,7 @@ class AssetPack():
             self._data[path]
         except KeyError:
             raise AttributeError('No asset for path: {}'.format(path))
-        return dict(self._meta.get(path, {}))
+        return copy.deepcopy(self._meta.get(path, {}))
     def assets(self):
         assets = []
         for path in self.paths():
@@ -37,7 +37,6 @@ class AssetPack():
     def transform(self, transformer_map={}, cfg={}):
         pack = AssetPack()
         for asset in self.assets():
-            asset = copy.deepcopy(asset)
             mapnames = asset['meta'].pop('pipeline', [])
             pipeline = []
             for name in mapnames:
