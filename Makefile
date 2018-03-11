@@ -8,7 +8,8 @@ SRCS := \
   $(PROG)/loader/__init__.py            \
   $(PROG)/dumper/__init__.py            \
   $(PROG)/transformer/__init__.py       \
-  $(PROG)/loader/search.py
+  $(PROG)/loader/search.py              \
+  $(PROG)/dumper/fs.py
 
 DIR_ENV         := .env
 DIR_BIN         := $(DIR_ENV)/bin
