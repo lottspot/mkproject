@@ -7,7 +7,7 @@ class AssetPack():
         self._data = {}
         self._meta = {}
     def __repr__(self):
-        return '{}{}'.format(self.__name__, str(self.paths()))
+        return '{}{}'.format(self.__class__.__name__, str(self.paths()))
     def __str__(self):
         return str(self.paths())
     def register_path(self, path, data, meta={}):
