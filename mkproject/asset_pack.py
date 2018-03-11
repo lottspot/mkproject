@@ -1,5 +1,5 @@
 import copy
-from .transformer import transform as default_transform
+from .transformer import BaseTransformer as default_transformer
 
 class AssetPack():
     def __init__(self):
@@ -53,13 +53,14 @@ class AssetPack():
                 except KeyError:
                     raise RuntimeError('failed to transform {}: no transformer: {}'.format(asset['path'], name))
             if len(pipeline) < 1:
-                pipeline.append(default_transform)
+                pipeline.append(default_transformer)
             transformed = self._transform_pipeline(pipeline, cfg, path, data, meta)
             pack.register_path(*transformed)
         return pack
     def _transform_pipeline(self, pipeline, cfg, path, data, meta):
-        transform = pipeline[0]
+        transformer = pipeline[0]
+        asset = transformer.transform(cfg, path, data, meta)
         if len(pipeline) == 1:
-            return transform(cfg, path, data, meta)
+            return asset
         else:
-            return self._transform_pipeline(pipeline[1:], cfg, *transform(cfg, path, data, meta))
+            return self._transform_pipeline(pipeline[1:], cfg, *asset)

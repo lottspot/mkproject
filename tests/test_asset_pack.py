@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import MagicMock
 from mkproject.asset_pack import AssetPack
 
 class TestAssetPack(unittest.TestCase):
@@ -36,10 +37,11 @@ class TestAssetPack(unittest.TestCase):
         self.assertEqual(pack.data(self.mock_assets[0]['path']), self.mock_assets[0]['data'])
         self.assertEqual(pack.data(self.mock_assets[1]['path']), self.mock_assets[1]['data'])
     def test_assetpack_transform_pipeline(self):
-        transformer_map = {
-            'atob': lambda cfg, path, data, meta: (path, 'b', meta) if data == 'a' else (path, data, meta),
-            'btoc': lambda cfg, path, data, meta: (path, 'c', meta) if data == 'b' else (path, data, meta)
-        }
+        atob = MagicMock()
+        btoc = MagicMock()
+        atob.transform = lambda cfg, path, data, meta: (path, 'b', meta) if data == 'a' else (path, data, meta)
+        btoc.transform = lambda cfg, path, data, meta: (path, 'c', meta) if data == 'b' else (path, data, meta)
+        transformer_map = { 'atob': atob, 'btoc': btoc }
         self.pack.register_path('/data/a', 'a', {'pipeline': ['atob', 'btoc']})
         pack = self.pack.transform(transformer_map, {})
         self.assertEqual(pack.data('/data/a'), 'c')

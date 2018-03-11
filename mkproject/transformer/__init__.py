@@ -1,8 +1,5 @@
 from collections.abc import MutableMapping
 
-def transform(cfg, path, data, meta):
-    return path, data, meta
-
 class BaseTransformer():
     @staticmethod
     @property
