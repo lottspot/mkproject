@@ -2,6 +2,7 @@ from .asset_pack import AssetPack
 from .loader import LoaderError as _LoaderError
 from .dumper import DumperError as _DumperError
 from .transformer import TransformerError as _TransformerError
+from .transformer import TransformerMap as _TransformerMap
 
 __version__ = '0.0.0'
 __pkg__     = 'mkproject'
@@ -9,6 +10,8 @@ __pkg__     = 'mkproject'
 LoaderError = _LoaderError
 DumperError = _DumperError
 TransformerError = _TransformerError
+
+TransformerMap = _TransformerMap
 
 def load(location, loader_class):
     pack = AssetPack()
