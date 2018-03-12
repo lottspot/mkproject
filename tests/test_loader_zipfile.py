@@ -22,11 +22,15 @@ class TestZipfileLoader(unittest.TestCase):
             MagicMock(**{'filename':'meta/sub/a.json', 'is_dir.return_value':False})
         )
         self.archive = {
+            'data/': b'',
             'data/a': b'data-a',
             'data/b': b'data-b',
+            'data/sub/': b'',
             'data/sub/a': b'data-sub/a',
             'data/sub/b': b'data-sub/b',
+            'meta/': b'',
             'meta/a.json': b'{"meta-a":true}',
+            'meta/sub/': b'',
             'meta/sub/a.json': b'{"meta-sub/a":true}'
         }
         self.loader._ZipFile().__enter__().infolist.return_value = self.infolist
