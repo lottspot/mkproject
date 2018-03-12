@@ -39,7 +39,7 @@ test: $(BIN_PIP)
 	$(DIR_BIN)/python setup.py test
 
 clean:
-	rm -rf dist build .env *.spec *.egg-info
+	rm -rf dist build .env *.spec *.egg-info .eggs
 	find . -name __pycache__ -print0 | xargs -0 rm -rf
 	find . -name '*.pyc' -print0 | xargs -0 rm -f
 

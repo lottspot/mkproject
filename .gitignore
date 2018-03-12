@@ -1,6 +1,7 @@
 /dist
 /build
 /.env
+/.eggs
 /*.spec
 __pycache__
 *.egg-info
