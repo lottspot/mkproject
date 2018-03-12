@@ -27,4 +27,4 @@ class SearchLoader(BaseLoader):
                 return loader.load(pack)
             except LoaderError:
                 continue
-        raise LoaderError('Failed to load asset pack from {}'.format(location.base))
+        raise LoaderError('Failed to load asset pack from {}'.format(self.location.base))
