@@ -58,6 +58,7 @@ def main():
     FSDumper.log = print
 
     # CLI Interface
+    parser.add_argument('-d', '--directory', required=False, dest='dump_location')
     parser.add_argument('-t', '--type', required=False, dest='projtype')
     parser.add_argument('name')
     parser.add_argument('config', nargs='*', default=[])
@@ -82,6 +83,8 @@ def main():
     load_location.register_loader('', DirectoryLoader)
     load_location.register_loader('.zip', ZipfileLoader)
     dump_location = Path.cwd() / '{}-{}'.format(cfg['type'], cfg['name'])
+    if args.dump_location is not None:
+        dump_location = args.dump_location
 
     # Run
     try:
