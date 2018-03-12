@@ -1,4 +1,5 @@
 class BaseLoader():
+    log = lambda self, msg: None
     def __init__(self, location):
         self._location = location
     def __repr__(self):

@@ -25,5 +25,6 @@ class FSDumper(BaseDumper):
                 except FileNotFoundError:
                     path.parent.mkdir(parents=True)
                     path.write_bytes(data)
+                self.log('+ {}'.format(pathtail))
         except EnvironmentError as e:
             raise DumperError(e.strerror)

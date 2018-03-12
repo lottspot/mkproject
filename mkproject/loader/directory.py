@@ -27,6 +27,7 @@ class DirectoryLoader(BaseLoader):
                 except json.decoder.JSONDecodeError as e:
                     raise LoaderError('failed to load meta {}: {}: {}'.format(meta_path, e.__class__.__name__, e))
                 pack.register_path(asset_path, asset_data, asset_meta)
+                self.log('- {}'.format(path))
     def _meta_path(self, asset_path):
         name = str(asset_path) + '.json'
         path = self._Path(self.location, 'meta', name)
