@@ -20,4 +20,4 @@ class TestTemplateTransformer(unittest.TestCase):
             path, data, meta = TemplateTransformer.transform(self.cfg, *self.asset)
         except TransformerError:
             return
-        raise RuntimeError('Unexpected test pass')
+        raise AssertionError('Unexpected test pass')

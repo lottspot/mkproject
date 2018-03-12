@@ -15,4 +15,4 @@ class TestMakoTransformer(unittest.TestCase):
             path, data, meta = MakoTransformer.transform(self.cfg, *self.asset)
         except TransformerError:
             return
-        raise RuntimeError('Unexpected test pass')
+        raise AssertionError('Unexpected test pass')

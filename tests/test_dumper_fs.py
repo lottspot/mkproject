@@ -46,7 +46,7 @@ class TestFSDumper(unittest.TestCase):
             base.iterdir.assert_called_once()
             self.assertTrue(str(e).startswith('non-empty directory'))
             return
-        raise RuntimeError('Unexpected test pass')
+        raise AssertionError('Unexpected test pass')
     def test_dumper_fs_dump_enverror(self):
         path = MagicMock()
         path.write_bytes.side_effect = EnvironmentError
@@ -58,7 +58,7 @@ class TestFSDumper(unittest.TestCase):
         except DumperError:
             path.write_bytes.assert_called_once()
             return
-        raise RuntimeError('Unexpected test pass')
+        raise AssertionError('Unexpected test pass')
     def test_dumper_fs_data_encode(self):
         data = MagicMock()
         self.pack.paths.return_value = ('a',)

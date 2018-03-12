@@ -51,4 +51,4 @@ class TestAssetPack(unittest.TestCase):
             self.pack.register_path('a', 'data-b')
         except AttributeError:
             return
-        raise RuntimeError('Unexpected test pass')
+        raise AssertionError('Unexpected test pass')

@@ -55,11 +55,11 @@ class TestDirectoryLoader(unittest.TestCase):
             self.loader.load(self.pack)
         except LoaderError:
             return
-        raise RuntimeError('Unexpected test pass')
+        raise AssertionError('Unexpected test pass')
     def test_loder_directory_jsonerror(self):
         self.mfile.read_bytes.side_effect = ('', '{]')
         try:
             self.loader.load(self.pack)
         except LoaderError:
             return
-        raise RuntimeError('Unexpected test pass')
+        raise AssertionError('Unexpected test pass')
