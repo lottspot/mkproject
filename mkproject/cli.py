@@ -53,6 +53,9 @@ def main():
     # Base objects
     cfg = get_basecfg()
     parser = argparse.ArgumentParser()
+    DirectoryLoader.log = print
+    ZipfileLoader.log = print
+    FSDumper.log = print
 
     # CLI Interface
     parser.add_argument('-t', '--type', required=False, dest='projtype')
