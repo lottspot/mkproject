@@ -10,6 +10,7 @@ SRCS := \
   $(PROG)/transformer/__init__.py       \
   $(PROG)/loader/search.py              \
   $(PROG)/loader/directory.py           \
+  $(PROG)/loader/zipfile.py             \
   $(PROG)/dumper/fs.py                  \
   $(PROG)/transformer/template.py       \
   $(PROG)/transformer/path.py           \
