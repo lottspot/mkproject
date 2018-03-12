@@ -11,11 +11,4 @@ class BaseLoader():
     def load(self, pack):
         raise NotImplementedError()
 
-class MockLoader(BaseLoader):
-    def load(self, pack):
-        try:
-            self.ncalls += 1
-        except AttributeError:
-            self.ncalls = 1
-
 class LoaderError(Exception): pass

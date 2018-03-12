@@ -8,8 +8,9 @@ from . import Project
 from . import LoaderError
 from . import TransformerError
 from . import DumperError
-from .loader import MockLoader
-from .dumper import MockDumper
+from .dumper.fs import FSDumper
+from .loader.directory import DirectoryLoader
+from .loader.zipfile import ZipfileLoader
 from .loader.search import SearchLoader
 from .loader.search import SearchLocation
 
@@ -34,9 +35,8 @@ def get_basecfg():
     basecfg = {}
     rcpath = Path(CLI_HOME, 'config.json')
     try:
-        with rcpath.open() as rcfile:
-            data = rcfile.read()
-            basecfg = json.loads(data.decode())
+        data = rcpath.read_bytes()
+        basecfg = json.loads(data.decode())
     except OSError as e:
         pass
     return basecfg
@@ -73,24 +73,21 @@ def main():
         die('missing required value -t/--type')
 
     # Config derived objects
-    project = Project(cfg, SearchLoader, MockDumper)
-    search_base = str(CLI_HOME / cfg['type'])
-    load_location = SearchLocation(search_base)
-    load_location.register_loader('', MockLoader)
-    load_location.register_loader('.zip', MockLoader)
+    project = Project(cfg, SearchLoader, FSDumper)
+    search_base = Path(CLI_HOME, 'assets', cfg['type'])
+    load_location = SearchLocation(str(search_base))
+    load_location.register_loader('', DirectoryLoader)
+    load_location.register_loader('.zip', ZipfileLoader)
     dump_location = Path.cwd() / '{}-{}'.format(cfg['type'], cfg['name'])
 
     # Run
     try:
         project.make(load_location, dump_location)
     except LoaderError as e:
-        die('error loading assets: {}'.format(e))
+        die('load error: {}'.format(e))
     except TransformerError as e:
-        die('error transforming assets: {}'.format(e))
+        die('transform error: {}'.format(e))
     except DumperError as e:
-        die('error dumping project: {}'.format(e))
-
-    # Tests
-    print('cfg: {}'.format(cfg))
+        die('dump error: {}'.format(e))
 
     return 0

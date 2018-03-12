@@ -11,11 +11,4 @@ class BaseDumper():
     def dump(self, pack):
         raise NotImplementedError()
 
-class MockDumper(BaseDumper):
-    def dump(self, pack):
-        try:
-            self.ncalls += 1
-        except AttributeError:
-            self.ncalls = 1
-
 class DumperError(Exception): pass

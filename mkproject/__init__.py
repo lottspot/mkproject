@@ -3,6 +3,8 @@ from .loader import LoaderError as _LoaderError
 from .dumper import DumperError as _DumperError
 from .transformer import TransformerError as _TransformerError
 from .transformer import TransformerMap as _TransformerMap
+from .loader.directory import DirectoryLoader
+from .dumper.fs import FSDumper
 
 __version__ = '0.0.0'
 __pkg__     = 'mkproject'
@@ -13,13 +15,13 @@ TransformerError = _TransformerError
 
 TransformerMap = _TransformerMap
 
-def load(location, loader_class):
+def load(location, loader_class=DirectoryLoader):
     pack = AssetPack()
     loader = loader_class(location)
     loader.load(pack)
     return pack
 
-def dump(location, pack, dumper_class):
+def dump(location, pack, dumper_class=FSDumper):
     dumper = dumper_class(location)
     dumper.dump(pack)
 
