@@ -9,4 +9,7 @@ setup(
   entry_points={
     'console_scripts': [ '{} = {}.cli:main'.format(__pkg__, __pkg__)  ]
   },
+  install_requires=[
+    'mako>=1,<2'
+  ]
 )
