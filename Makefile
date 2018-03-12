@@ -10,7 +10,10 @@ SRCS := \
   $(PROG)/transformer/__init__.py       \
   $(PROG)/loader/search.py              \
   $(PROG)/loader/directory.py           \
-  $(PROG)/dumper/fs.py
+  $(PROG)/dumper/fs.py                  \
+  $(PROG)/transformer/template.py       \
+  $(PROG)/transformer/path.py           \
+  $(PROG)/transformer/mako.py
 
 DIR_ENV         := .env
 DIR_BIN         := $(DIR_ENV)/bin
