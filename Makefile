@@ -9,6 +9,7 @@ SRCS := \
   $(PROG)/dumper/__init__.py            \
   $(PROG)/transformer/__init__.py       \
   $(PROG)/loader/search.py              \
+  $(PROG)/loader/directory.py           \
   $(PROG)/dumper/fs.py
 
 DIR_ENV         := .env
