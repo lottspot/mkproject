@@ -15,6 +15,7 @@ class FSDumper(BaseDumper):
                 base.mkdir()
             if len(dirlist) > 0:
                 raise DumperError('non-empty directory: {}'.format(str(base)))
+            self.log('{}'.format(base))
             for pathtail in pack.paths():
                 path = self._Path(base, pathtail)
                 data = pack.data(pathtail)
