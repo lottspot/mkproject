@@ -8,11 +8,16 @@ from . import Project
 from . import LoaderError
 from . import TransformerError
 from . import DumperError
+from . import TransformerMap
 from .dumper.fs import FSDumper
 from .loader.directory import DirectoryLoader
 from .loader.zipfile import ZipfileLoader
 from .loader.search import SearchLoader
 from .loader.search import SearchLocation
+from .transformer.template import TemplateTransformer
+from .transformer.path import PathTransformer
+from .transformer.mako import MakoTransformer
+
 
 CLI_HOME = Path.home() / '.{}'.format(__pkg__)
 
@@ -53,6 +58,10 @@ def main():
     # Base objects
     cfg = get_basecfg()
     parser = argparse.ArgumentParser()
+    tmap = TransformerMap()
+    tmap.add(TemplateTransformer)
+    tmap.add(PathTransformer)
+    tmap.add(MakoTransformer)
     DirectoryLoader.log = print
     ZipfileLoader.log = print
     FSDumper.log = print
@@ -88,7 +97,7 @@ def main():
 
     # Run
     try:
-        project.make(load_location, dump_location)
+        project.make(load_location, dump_location, tmap)
     except LoaderError as e:
         die('load error: {}'.format(e))
     except TransformerError as e:
