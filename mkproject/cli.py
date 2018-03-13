@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 from . import __pkg__
+from . import __version__
 from . import Project
 from . import LoaderError
 from . import TransformerError
@@ -67,23 +68,24 @@ def main():
     FSDumper.log = print
 
     # CLI Interface
-    parser.add_argument('-d', '--directory', required=False, dest='dump_location')
-    parser.add_argument('-t', '--type', required=False, dest='projtype')
-    parser.add_argument('name')
-    parser.add_argument('config', nargs='*', default=[])
+    parser.add_argument('-d', '--directory', required=False, dest='dump_location', help='directory to output project files into')
+    parser.add_argument('-t', '--type', required=False, dest='project_type', help='name of the project type to source templates from')
+    parser.add_argument('project_name', help='name of the new project')
+    parser.add_argument('config', nargs='*', default=[], help='items to be added to the project configuration, specified in the format key:value')
+    parser.add_argument('-v', '--version', action='version', help='show program version and exit', version='%(prog)s ' + __version__)
 
     # CLI values & config merge
     args = parser.parse_args()
     for pair in args.config:
         k, v = tokenize_kv(pair)
         cfg[k] = v
-    cfg['project_name'] = args.name
-    if args.projtype is not None:
-        cfg['project_type'] = args.projtype
+    cfg['project_name'] = args.project_name
+    if args.project_type is not None:
+        cfg['project_type'] = args.project_type
 
     # Validate finalized config
-    if 'type' not in cfg.keys():
-        die('missing required value -t/--type')
+    if 'project_type' not in cfg.keys():
+        die('missing required value: project_type')
 
     # Config derived objects
     project = Project(cfg, SearchLoader, FSDumper)

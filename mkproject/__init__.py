@@ -6,7 +6,7 @@ from .transformer import TransformerMap as _TransformerMap
 from .loader.directory import DirectoryLoader
 from .dumper.fs import FSDumper
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __pkg__     = 'mkproject'
 
 LoaderError = _LoaderError
