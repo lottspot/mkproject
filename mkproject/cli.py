@@ -68,9 +68,9 @@ def main():
     for pair in args.config:
         k, v = tokenize_kv(pair)
         cfg[k] = v
-    cfg['name'] = args.name
+    cfg['project_name'] = args.name
     if args.projtype is not None:
-        cfg['type'] = args.projtype
+        cfg['project_type'] = args.projtype
 
     # Validate finalized config
     if 'type' not in cfg.keys():
@@ -78,11 +78,11 @@ def main():
 
     # Config derived objects
     project = Project(cfg, SearchLoader, FSDumper)
-    search_base = Path(CLI_HOME, 'assets', cfg['type'])
+    search_base = Path(CLI_HOME, 'assets', cfg['project_type'])
     load_location = SearchLocation(str(search_base))
     load_location.register_loader('', DirectoryLoader)
     load_location.register_loader('.zip', ZipfileLoader)
-    dump_location = Path.cwd() / '{}-{}'.format(cfg['type'], cfg['name'])
+    dump_location = Path('{}-{}'.format(cfg['project_type'], cfg['project_name']))
     if args.dump_location is not None:
         dump_location = args.dump_location
 
